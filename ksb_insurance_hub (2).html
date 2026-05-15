@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE KSB INSURANCE HUB™</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #050505;
+    --dark: #0d0d0d;
+    --card: #111111;
+    --border: #1f1f1f;
+    --silver: #d9d9d9;
+    --silver-dim: #a0a0a0;
+    --silver-glow: rgba(217,217,217,0.08);
+    --gray: #707070;
+    --white: #f5f5f5;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--silver);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR — desktop/mouse only */
+  .cursor {
+    position: fixed;
+    width: 10px; height: 10px;
+    background: var(--silver);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(217,217,217,0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), width 0.3s, height 0.3s;
+    transform: translate(-50%, -50%);
+  }
+  /* Hide custom cursor on touch devices, restore system cursor */
+  @media (hover: none) and (pointer: coarse) {
+    .cursor, .cursor-ring { display: none !important; }
+    body { cursor: auto; }
+    a, button, .service-card, .trust-item, .cta-btn, .social-link, .map-clickable { cursor: pointer; }
+  }
+
+  /* NAVIGATION */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 28px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: transparent;
+    transition: background 0.4s ease, padding 0.4s ease, border-color 0.4s ease;
+    border-bottom: 1px solid transparent;
+  }
+
+  nav.scrolled {
+    background: rgba(5,5,5,0.97);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 18px 60px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.35em;
+    color: var(--silver);
+    text-decoration: none;
+    opacity: 0.9;
+  }
+
+  .nav-tm {
+    font-size: 0.75rem;
+    vertical-align: super;
+    opacity: 0.7;
+  }
+
+  .nav-tagline {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    color: var(--gray);
+    text-transform: uppercase;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 120px 40px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 40%, rgba(217,217,217,0.04) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 30% at 20% 80%, rgba(100,100,100,0.03) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-noise {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.5em;
+    color: var(--gray);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.3s forwards;
+  }
+
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: '—';
+    margin: 0 16px;
+    opacity: 0.4;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 18vw, 11rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    background: linear-gradient(180deg, #ffffff 0%, #c8c8c8 40%, #888888 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 60px rgba(217,217,217,0.05));
+    opacity: 0;
+    animation: fadeUp 1.2s ease 0.5s forwards;
+    position: relative;
+  }
+
+  .hero-title .dot {
+    color: var(--gray);
+    -webkit-text-fill-color: var(--gray);
+    opacity: 0.5;
+  }
+
+  .hero-sub {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    color: var(--gray);
+    text-transform: uppercase;
+    margin-top: 36px;
+    margin-bottom: 56px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.8s forwards;
+    max-width: 520px;
+  }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 48px;
+    background: transparent;
+    border: 1px solid rgba(217,217,217,0.25);
+    color: var(--silver);
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: none;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.1s forwards;
+    transition: border-color 0.4s ease, color 0.4s ease;
+  }
+
+  .cta-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(217,217,217,0.06) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .cta-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 1px;
+    background: var(--silver);
+    transition: width 0.5s cubic-bezier(0.23,1,0.32,1);
+  }
+
+  .cta-btn:hover { border-color: rgba(217,217,217,0.6); }
+  .cta-btn:hover::before { opacity: 1; }
+  .cta-btn:hover::after { width: 100%; }
+
+  .cta-icon {
+    width: 20px; height: 20px;
+    fill: currentColor;
+    opacity: 0.7;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.5s forwards;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, transparent, var(--gray));
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  .scroll-text {
+    font-size: 0.58rem;
+    letter-spacing: 0.4em;
+    color: var(--gray);
+    text-transform: uppercase;
+    opacity: 0.5;
+    transform: rotate(90deg);
+    margin-top: 8px;
+  }
+
+  /* DIVIDER */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin: 0 60px;
+  }
+
+  /* ABOUT */
+  .about {
+    padding: 120px 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .about-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.5em;
+    color: var(--gray);
+    text-transform: uppercase;
+    opacity: 0.6;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    justify-self: center;
+  }
+
+  .about-content {}
+
+  .about-tag {
+    display: inline-block;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    color: var(--gray);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    opacity: 0.5;
+  }
+
+  .about-heading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.4rem, 4vw, 3.2rem);
+    letter-spacing: 0.05em;
+    background: linear-gradient(180deg, #e0e0e0 0%, #888 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 28px;
+    line-height: 1;
+  }
+
+  .about-body {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--gray);
+    font-weight: 300;
+    max-width: 520px;
+  }
+
+  /* SERVICES */
+  .services {
+    padding: 100px 60px;
+    background: var(--dark);
+    position: relative;
+  }
+
+  .services::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 70px;
+  }
+
+  .section-eyebrow {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.5em;
+    color: var(--gray);
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 0.08em;
+    background: linear-gradient(180deg, #d9d9d9 0%, #707070 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    max-width: 1100px;
+    margin: 0 auto;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .service-card {
+    background: var(--card);
+    padding: 48px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s ease;
+    cursor: none;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, rgba(217,217,217,0.15), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .service-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top left, rgba(217,217,217,0.04) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .service-card:hover { background: #161616; }
+  .service-card:hover::before { opacity: 1; }
+  .service-card:hover::after { opacity: 1; }
+
+  .service-icon {
+    width: 42px; height: 42px;
+    margin-bottom: 32px;
+    opacity: 0.5;
+    transition: opacity 0.4s ease;
+    position: relative;
+    z-index: 1;
+  }
+
+  .service-card:hover .service-icon { opacity: 0.9; }
+
+  .service-num {
+    position: absolute;
+    top: 32px; right: 32px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    color: var(--border);
+    letter-spacing: 0.1em;
+    transition: color 0.4s ease;
+  }
+
+  .service-card:hover .service-num { color: #2a2a2a; }
+
+  .service-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    color: var(--silver-dim);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 1;
+    transition: color 0.4s ease;
+  }
+
+  .service-card:hover .service-name { color: var(--silver); }
+
+  .service-desc {
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: var(--gray);
+    font-weight: 300;
+    letter-spacing: 0.03em;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* TRUST */
+  .trust {
+    padding: 100px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .trust::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(217,217,217,0.025) 0%, transparent 70%);
+  }
+
+  .trust-grid {
+    max-width: 1100px;
+    margin: 60px auto 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .trust-item {
+    text-align: center;
+    padding: 40px 20px;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.4s ease;
+    cursor: none;
+  }
+
+  .trust-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 40px; height: 2px;
+    background: linear-gradient(to right, transparent, rgba(217,217,217,0.4), transparent);
+    transition: width 0.5s ease;
+  }
+
+  .trust-item:hover { border-color: rgba(217,217,217,0.15); }
+  .trust-item:hover::before { width: 80%; }
+
+  .trust-icon {
+    width: 36px; height: 36px;
+    margin: 0 auto 24px;
+    opacity: 0.4;
+    transition: opacity 0.4s ease;
+  }
+
+  .trust-item:hover .trust-icon { opacity: 0.8; }
+
+  .trust-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    color: var(--silver-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .trust-desc {
+    font-size: 0.75rem;
+    color: var(--gray);
+    line-height: 1.7;
+    font-weight: 300;
+    opacity: 0.7;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+    padding: 70px 60px 50px;
+  }
+
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .footer-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.3em;
+    background: linear-gradient(180deg, #d9d9d9 0%, #707070 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+
+  .footer-tagline {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    color: var(--gray);
+    text-transform: uppercase;
+    opacity: 0.4;
+    margin-bottom: 50px;
+  }
+
+  .footer-divider {
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 50px;
+  }
+
+  .footer-contact {
+    display: flex;
+    gap: 60px;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+  }
+
+  .contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .contact-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    color: var(--gray);
+    text-transform: uppercase;
+    opacity: 0.4;
+  }
+
+  .contact-value {
+    font-size: 0.88rem;
+    color: var(--silver-dim);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    cursor: none;
+  }
+
+  .contact-value:hover { color: var(--silver); }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 30px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-copy {
+    font-size: 0.65rem;
+    color: var(--gray);
+    letter-spacing: 0.15em;
+    opacity: 0.4;
+  }
+
+  .footer-tm {
+    font-size: 0.65rem;
+    color: var(--gray);
+    letter-spacing: 0.15em;
+    opacity: 0.3;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 0.7; transform: scaleY(1.1); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s cubic-bezier(0.23,1,0.32,1), transform 0.9s cubic-bezier(0.23,1,0.32,1);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+  svg { display: block; }
+
+  .map-wrapper {
+    position: relative;
+    margin-top: 50px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: border-color 0.4s ease;
+  }
+
+  .map-wrapper:hover { border-color: rgba(217,217,217,0.15); }
+
+  .map-clickable {
+    display: block;
+    text-decoration: none;
+    position: relative;
+    cursor: none;
+  }
+
+  .map-static { display: block; width: 100%; }
+
+  .map-overlay-link {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 16px 20px;
+    text-decoration: none;
+  }
+
+  .map-overlay-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(10,10,10,0.85);
+    border: 1px solid var(--border);
+    color: var(--silver-dim);
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 10px 18px;
+    transition: border-color 0.3s ease, color 0.3s ease;
+    backdrop-filter: blur(6px);
+  }
+
+  .map-overlay-link:hover .map-overlay-label {
+    border-color: rgba(217,217,217,0.3);
+    color: var(--silver);
+  }
+
+  .map-link {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    line-height: 1.6;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+    transition: color 0.3s ease;
+    cursor: none;
+  }
+
+  .social-link svg { width: 18px; height: 18px; opacity: 0.6; transition: opacity 0.3s ease; }
+  .social-link:hover { color: var(--silver-dim); }
+  .social-link:hover svg { opacity: 1; }
+
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    nav.scrolled { padding: 14px 24px; }
+    .nav-tagline { display: none; }
+
+    .hero { padding: 100px 24px 80px; }
+    .hero-eyebrow { font-size: 0.6rem; letter-spacing: 0.3em; margin-bottom: 24px; }
+    .hero-sub { font-size: 0.72rem; letter-spacing: 0.12em; margin-top: 24px; margin-bottom: 40px; }
+    .cta-btn { padding: 16px 32px; font-size: 0.78rem; letter-spacing: 0.2em; }
+
+    .section-divider { margin: 0 24px; }
+
+    .about {
+      grid-template-columns: 1fr;
+      padding: 64px 24px;
+      gap: 24px;
+    }
+    .about-label { writing-mode: horizontal-tb; transform: none; font-size: 0.6rem; }
+    .about-heading { font-size: 2rem; }
+    .about-body { font-size: 0.92rem; }
+
+    .services { padding: 64px 24px; }
+    .section-title { font-size: 2.2rem; }
+    .section-eyebrow { font-size: 0.6rem; }
+    .services-grid { grid-template-columns: 1fr 1fr; gap: 1px; }
+    .service-card { padding: 32px 24px; }
+    .service-name { font-size: 0.95rem; letter-spacing: 0.1em; }
+    .service-desc { font-size: 0.74rem; }
+
+    .trust { padding: 64px 24px; }
+    .trust-grid { grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 40px; }
+    .trust-item { padding: 28px 16px; }
+    .trust-name { font-size: 0.78rem; letter-spacing: 0.15em; }
+    .trust-desc { font-size: 0.72rem; }
+
+    footer { padding: 52px 24px 36px; }
+    .footer-brand { font-size: 1.2rem; letter-spacing: 0.2em; }
+    .footer-contact { flex-direction: column; gap: 24px; }
+    .contact-label { font-size: 0.58rem; }
+    .contact-value { font-size: 0.82rem; }
+    .social-links { gap: 20px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .footer-copy { font-size: 0.6rem; }
+
+    .map-wrapper { margin-top: 36px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-eyebrow::before, .hero-eyebrow::after { margin: 0 8px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .trust-grid { grid-template-columns: 1fr 1fr; }
+    .service-card { padding: 28px 20px; }
+    .about { padding: 56px 20px; }
+    .services { padding: 56px 20px; }
+    .trust { padding: 56px 20px; }
+    footer { padding: 48px 20px 32px; }
+    .section-divider { margin: 0 20px; }
+    .cta-btn { padding: 14px 24px; width: 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">THE KSB INSURANCE HUB<span class="nav-tm">™</span></a>
+  <span class="nav-tagline">Your Trusted Insurance Partner</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-noise"></div>
+  <span class="hero-eyebrow">Serving India Since 2007</span>
+  <h1 class="hero-title">Trust<span class="dot">.</span><br>Service<span class="dot">.</span><br>Legacy<span class="dot">.</span></h1>
+  <p class="hero-sub">Motor · Health · Life · House & All Insurance Solutions</p>
+  <a href="https://wa.me/919811157973" class="cta-btn" target="_blank" rel="noopener">
+    <svg class="cta-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+    Chat on WhatsApp
+  </a>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span class="scroll-text">Scroll</span>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ABOUT -->
+<section class="about">
+  <div class="about-label reveal">About</div>
+  <div class="about-content">
+    <span class="about-tag reveal">Trusted Advisory</span>
+    <h2 class="about-heading reveal">Who We Are</h2>
+    <p class="about-body reveal reveal-delay-1">
+      Since 2007, KSB Insurance Hub has provided trusted insurance guidance with personalized support, transparent advisory, and dependable claim assistance. We stand beside our clients — not just at policy inception, but at every moment that matters.
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- SERVICES -->
+<section class="services">
+  <div class="section-header reveal">
+    <p class="section-eyebrow">What We Offer</p>
+    <h2 class="section-title">Our Services</h2>
+  </div>
+  <div class="services-grid">
+
+    <div class="service-card reveal">
+      <span class="service-num">01</span>
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+      </svg>
+      <div class="service-name">Health Insurance</div>
+      <p class="service-desc">Comprehensive health cover for individuals, families, and senior citizens. Cashless hospitalisation with trusted networks.</p>
+    </div>
+
+    <div class="service-card reveal reveal-delay-1">
+      <span class="service-num">02</span>
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      <div class="service-name">Life Insurance</div>
+      <p class="service-desc">Protecting your family's financial future with term plans, endowment policies, and wealth-linked solutions.</p>
+    </div>
+
+    <div class="service-card reveal reveal-delay-2">
+      <span class="service-num">03</span>
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="1" y="3" width="15" height="13" rx="1"/>
+        <path d="M16 8h4l3 5v3h-7V8zM5.5 21a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM18.5 21a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+      </svg>
+      <div class="service-name">Motor Insurance</div>
+      <p class="service-desc">Private cars, two-wheelers, and commercial vehicles. Expert claim support and seamless renewal management.</p>
+    </div>
+
+    <div class="service-card reveal reveal-delay-3">
+      <span class="service-num">04</span>
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="7" width="20" height="14" rx="2"/>
+        <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>
+      </svg>
+      <div class="service-name">Corporate Insurance</div>
+      <p class="service-desc">Group mediclaim, fire, marine, and liability policies tailored for businesses — from SMEs to large enterprises.</p>
+    </div>
+
+    <div class="service-card reveal reveal-delay-4">
+      <span class="service-num">05</span>
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      <div class="service-name">House Insurance</div>
+      <p class="service-desc">Protect your home and belongings against fire, natural disasters, theft, and structural damage with comprehensive home cover.</p>
+    </div>
+
+    <div class="service-card reveal reveal-delay-4">
+      <span class="service-num">06</span>
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <div class="service-name">Any Other Insurance</div>
+      <p class="service-desc">Travel, marine, fire, liability, or any specialised cover — if you need it, we will find the right policy for you.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section class="trust">
+  <div class="section-header reveal">
+    <p class="section-eyebrow">Our Commitments</p>
+    <h2 class="section-title">Why Us</h2>
+  </div>
+  <div class="trust-grid">
+
+    <div class="trust-item reveal">
+      <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+        <circle cx="12" cy="8" r="5"/>
+        <path d="M3 21a9 9 0 0118 0"/>
+      </svg>
+      <div class="trust-name">Trust</div>
+      <p class="trust-desc">Over 18 years of trusted guidance. Your confidence in us is built on results, not promises.</p>
+    </div>
+
+    <div class="trust-item reveal reveal-delay-1">
+      <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+      </svg>
+      <div class="trust-name">Service</div>
+      <p class="trust-desc">Fast renewals, seamless policy management, and support that doesn't end at the document.</p>
+    </div>
+
+    <div class="trust-item reveal reveal-delay-2">
+      <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      <div class="trust-name">Claim Support</div>
+      <p class="trust-desc">We stand with you at claim time — guiding every step, cutting delays, and maximising your settlement.</p>
+    </div>
+
+    <div class="trust-item reveal reveal-delay-3">
+      <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+      </svg>
+      <div class="trust-name">Legacy</div>
+      <p class="trust-desc">Serving families and businesses since 2007 — a legacy of protection passed through generations.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand reveal">THE KSB INSURANCE HUB<sup style="font-size:0.65em;vertical-align:super;opacity:0.7">™</sup></div>
+    <div class="footer-tagline reveal">Your Trusted Insurance Partner · Since 2007</div>
+    <div class="footer-divider"></div>
+    <div class="footer-contact reveal">
+
+      <div class="contact-item">
+        <span class="contact-label">WhatsApp</span>
+        <a href="https://wa.me/919811157973" class="contact-value" target="_blank" rel="noopener">+91 98111 57973</a>
+      </div>
+
+      <div class="contact-item">
+        <span class="contact-label">Phone</span>
+        <a href="tel:+917840884480" class="contact-value">+91 78408 84480</a>
+      </div>
+
+      <div class="contact-item">
+        <span class="contact-label">Email</span>
+        <a href="mailto:info@ksbinsurance.in" class="contact-value">info@ksbinsurance.in</a>
+        <a href="mailto:theksb11@gmail.com" class="contact-value" style="margin-top:4px;font-size:0.78rem;opacity:0.7">theksb11@gmail.com</a>
+      </div>
+
+      <div class="contact-item">
+        <span class="contact-label">Office</span>
+        <a href="https://maps.app.goo.gl/DKRc3GK3Cp97TqL39?g_st=aw" class="contact-value map-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" style="width:13px;height:13px;display:inline-block;vertical-align:middle;margin-right:6px;opacity:0.6">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>185/A, Street No. 2,<br>Bank Colony, Delhi 110093
+        </a>
+      </div>
+
+    </div>
+
+    <!-- MAP - Static SVG with coordinates, click opens Google Maps -->
+    <div class="map-wrapper reveal">
+      <a href="https://maps.app.goo.gl/DKRc3GK3Cp97TqL39?g_st=aw" target="_blank" rel="noopener" class="map-clickable" aria-label="Open in Google Maps">
+        <div class="map-static">
+          <!-- Dark grid background -->
+          <svg width="100%" height="280" viewBox="0 0 1000 280" xmlns="http://www.w3.org/2000/svg" style="display:block">
+            <defs>
+              <pattern id="grid-major" width="80" height="80" patternUnits="userSpaceOnUse">
+                <path d="M 80 0 L 0 0 0 80" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+              </pattern>
+              <pattern id="grid-minor" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#141414" stroke-width="0.5"/>
+              </pattern>
+              <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#d9d9d9" stop-opacity="0.12"/>
+                <stop offset="100%" stop-color="#d9d9d9" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <!-- Background -->
+            <rect width="1000" height="280" fill="#0a0a0a"/>
+            <rect width="1000" height="280" fill="url(#grid-minor)"/>
+            <rect width="1000" height="280" fill="url(#grid-major)"/>
+            <!-- Glow at pin location -->
+            <ellipse cx="500" cy="130" rx="120" ry="80" fill="url(#glow)"/>
+            <!-- Simulated road lines -->
+            <line x1="0" y1="130" x2="1000" y2="130" stroke="#222" stroke-width="8"/>
+            <line x1="0" y1="130" x2="1000" y2="130" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="30,20"/>
+            <line x1="500" y1="0" x2="500" y2="280" stroke="#1d1d1d" stroke-width="5"/>
+            <line x1="200" y1="0" x2="380" y2="280" stroke="#191919" stroke-width="3"/>
+            <line x1="750" y1="0" x2="620" y2="280" stroke="#191919" stroke-width="3"/>
+            <rect x="380" y="60" width="140" height="60" rx="2" fill="#141414" stroke="#1e1e1e" stroke-width="1"/>
+            <rect x="540" y="80" width="120" height="50" rx="2" fill="#131313" stroke="#1e1e1e" stroke-width="1"/>
+            <rect x="240" y="50" width="100" height="70" rx="2" fill="#141414" stroke="#1d1d1d" stroke-width="1"/>
+            <rect x="620" y="140" width="130" height="55" rx="2" fill="#131313" stroke="#1d1d1d" stroke-width="1"/>
+            <rect x="300" y="145" width="90" height="50" rx="2" fill="#141414" stroke="#1d1d1d" stroke-width="1"/>
+            <!-- Coordinate crosshair -->
+            <line x1="485" y1="115" x2="515" y2="115" stroke="#555" stroke-width="0.8"/>
+            <line x1="500" y1="100" x2="500" y2="128" stroke="#555" stroke-width="0.8"/>
+            <!-- Pin drop shadow -->
+            <ellipse cx="500" cy="148" rx="10" ry="3" fill="#000" opacity="0.6"/>
+            <!-- Map pin -->
+            <path d="M500 90 C488 90 478 100 478 112 C478 128 500 148 500 148 C500 148 522 128 522 112 C522 100 512 90 500 90 Z" fill="#d9d9d9"/>
+            <circle cx="500" cy="112" r="6" fill="#0a0a0a"/>
+            <!-- Coordinate label -->
+            <rect x="516" y="88" width="130" height="22" rx="2" fill="rgba(10,10,10,0.85)" stroke="#2a2a2a" stroke-width="0.8"/>
+            <text x="524" y="103" font-family="monospace" font-size="10" fill="#888" letter-spacing="0.5">28.7020°N  77.3122°E</text>
+            <!-- Address label bottom -->
+            <rect x="340" y="198" width="320" height="46" rx="2" fill="rgba(8,8,8,0.92)" stroke="#252525" stroke-width="1"/>
+            <text x="500" y="218" font-family="sans-serif" font-size="11" fill="#a0a0a0" text-anchor="middle" letter-spacing="1">185/A, STREET NO. 2, BANK COLONY</text>
+            <text x="500" y="234" font-family="sans-serif" font-size="10" fill="#666" text-anchor="middle" letter-spacing="1">DELHI — 110093</text>
+            <!-- Click prompt -->
+            <rect x="820" y="14" width="166" height="30" rx="2" fill="rgba(10,10,10,0.9)" stroke="#2a2a2a" stroke-width="1"/>
+            <text x="903" y="33" font-family="sans-serif" font-size="10" fill="#888" text-anchor="middle" letter-spacing="1.5">↗ OPEN IN MAPS</text>
+          </svg>
+        </div>
+      </a>
+    </div>
+
+    <div class="footer-divider" style="margin-top:50px"></div>
+
+    <!-- SOCIAL + BOTTOM -->
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 The KSB Insurance Hub. All Rights Reserved.</span>
+      <div class="social-links">
+        <a href="https://www.instagram.com/ksbinsurance.in/" target="_blank" rel="noopener" class="social-link" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
+          <span>Instagram</span>
+        </a>
+        <a href="https://in.linkedin.com/company/the-ksb-insurance-hub" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
+            <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+          </svg>
+          <span>LinkedIn</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+  // Nav scroll state
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  // Custom cursor — only on real pointer (mouse/trackpad) devices
+  const hasPointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+
+  if (hasPointer) {
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top = my + 'px';
+    });
+
+    function animateRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.querySelectorAll('a, button, .service-card, .trust-item').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'translate(-50%,-50%) scale(2.5)';
+        cursor.style.opacity = '0.5';
+        ring.style.width = '60px';
+        ring.style.height = '60px';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+        cursor.style.opacity = '1';
+        ring.style.width = '36px';
+        ring.style.height = '36px';
+      });
+    });
+  }
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
